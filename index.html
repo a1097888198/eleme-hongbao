@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>elem</title>
+  <style>
+    *{
+      box-sizing: border-box;
+    }
+    .container{
+      max-width: 640px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    #hblj{
+      width: 100%;
+      max-width: 400px;
+      height: 100px;
+      margin: 0 auto;
+      display: block;
+      font-size: 14px;
+      border: 1px solid #f1f1f1;
+      resize: none;
+      padding: 4px 6px;
+      outline: none;
+    }
+    #lingqu{
+      background: #000;
+      color: #fff;
+      font-size: 16px;
+      text-align: center;
+      line-height: 34px;
+      height: 34px;
+      display: block;
+      margin: 20px auto;
+      max-width: 400px;
+      text-decoration: none;
+      -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    }
+  </style>
+</head>
+<body>
+    <div class="container">
+        <textarea id="hblj" placeholder="请输入红包链接，领取成功后，再在微信中点一下红包"></textarea>
+        <a href="javascript:;" id="lingqu">领取</a>
+    </div>
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+  <script>
+    var busy = false;
+function lingqu(hblj) {
+  if (busy) return;
+  busy = true;
+  $('#lingqu').html('领取中...')
+  $.ajax({
+    type: 'get',
+    url: '//pilu.sxrong.com:10010',
+    data: {
+      hblj
+    },
+    success: function (r) {
+      busy = false;
+      $('#lingqu').html('领取')
+      $('#hblj').val('')
+      if (r.indexOf("2'") > -1) {
+        alert('红包已被领取')
+      } else if(r.indexOf("1'") > -1){
+        alert('红包领取成功')
+      } else {
+        alert('未知错误')
+      }
+    }
+  })
+}
+$('#lingqu').click(function () {
+  var hblj = encodeURIComponent($('#hblj').val());
+  lingqu(hblj);
+})
+  </script>
+</body>
+</html>

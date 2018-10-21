@@ -1,0 +1,9 @@
+{
+    "apps": [
+        {
+            "name": "eleme",
+            "script": "node",
+            "args" : "elem.js"
+        }
+    ]
+}
